@@ -1,3 +1,8 @@
+import os
+import sys
+# Ensure the current directory is in the Python path for Render deployment
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+
 import logging
 from fastapi import FastAPI
 from fastapi.responses import JSONResponse
