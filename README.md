@@ -18,10 +18,20 @@ This is an MCP (Model Context Protocol) server that consumes the Website Securit
 1. Ensure the server is running locally.
 2. Follow the official [MCP Inspector documentation](https://modelcontextprotocol.io/docs/tools/inspector) to connect to your SSE URL (e.g., `http://localhost:8000/sse` or the specific transport endpoint).
 
-## Render Deployment
-1. Connect your repository to Render.
-2. Select "Blueprint" and point to `render.yaml` at the root of the `mcp-server` folder.
-3. Render will deploy the application automatically using `uvicorn` and Python 3.11.11.
+## Render Deployment (Free Tier)
+1. Push this `mcp-server` folder to a GitHub repository.
+2. Go to your Render Dashboard and click **New +**, then select **Web Service**.
+3. Connect your GitHub repository.
+4. Fill out the configuration:
+   - **Name**: `mcp-security-auditor`
+   - **Environment**: `Python`
+   - **Build Command**: `pip install -r requirements.txt`
+   - **Start Command**: `uvicorn server:app --host 0.0.0.0 --port $PORT`
+   - **Instance Type**: Select the **Free** tier.
+5. Expand "Advanced" and click "Add Environment Variable":
+   - **Key**: `PYTHON_VERSION`
+   - **Value**: `3.11.11`
+6. Click **Create Web Service**. It will build and deploy automatically.
 
 ## Connecting Clients
 
