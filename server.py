@@ -32,22 +32,16 @@ async def health_check():
     return {"status": "ok"}
 
 # When deployed on Render via uvicorn, the main app entrypoint serves the healthcheck,
-# and we mount the streamable HTTP app so the agent builder can access it.
+# and we mount the standard SSE app so the agent builder can access it.
 try:
-    mcp_app = mcp.streamable_http_app()
-    app.mount("/", mcp_app)  # Mounting at root exposes the /mcp endpoint
+    mcp_app = mcp.sse_app()
+    app.mount("/", mcp_app)  # Exposes /sse and /messages
 except Exception as e:
-    logger.error(f"Failed to mount streamable HTTP app: {e}")
+    logger.error(f"Failed to mount SSE app: {e}")
 
 @app.on_event("shutdown")
 async def shutdown_event():
     await api_client.close()
 
 if __name__ == "__main__":
-    # Start the server locally as explicitly requested:
-    # mcp.run(transport="streamable-http")
-    try:
-        mcp.run(transport="streamable-http")
-    except ValueError as e:
-        logger.error("streamable-http transport not found, falling back to 'sse'")
-        mcp.run(transport="sse")
+    mcp.run(transport="sse")
