@@ -14,8 +14,8 @@ from app_tools.api_client import api_client
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-# Create FastMCP server
-mcp = FastMCP("Website Security Auditor")
+# Create FastMCP server bound to all hosts for Render deployment
+mcp = FastMCP("Website Security Auditor", host="0.0.0.0")
 
 # Register generated tools
 register_tools(mcp)
