@@ -7,8 +7,8 @@ import logging
 from fastapi import FastAPI
 from fastapi.responses import JSONResponse
 from mcp.server.fastmcp import FastMCP
-from tools.generated_tools import register_tools
-from tools.api_client import api_client
+from app_tools.generated_tools import register_tools
+from app_tools.api_client import api_client
 
 # Set up logging
 logging.basicConfig(level=logging.INFO)
